@@ -29,20 +29,24 @@ public class SQLiteProvider extends SQLiteDatabase implements Provider {
 
     @Override
     public boolean has(String playerName) {
-        String sql = "SELECT * FROM players WHERE UPPER(playerName)=UPPER(:playerName);";
+        String sql = "SELECT playerName FROM players WHERE UPPER(playerName)=UPPER(:playerName);";
 
-        return getConnection().createQuery(sql)
-                .addParameter("playerName", playerName)
-                .executeScalar(Boolean.class);
+        try (Connection connection = getConnection()) {
+            return connection.createQuery(sql)
+                    .addParameter("playerName", playerName)
+                    .executeScalar(String.class) != null;
+        }
     }
 
     @Override
     public Double get(String playerName) {
         String sql = "SELECT balance FROM players WHERE UPPER(playerName)=UPPER(:playerName);";
 
-        return getConnection().createQuery(sql)
-                .addParameter("playerName", playerName)
-                .executeScalar(Double.class);
+        try (Connection connection = getConnection()) {
+            return connection.createQuery(sql)
+                    .addParameter("playerName", playerName)
+                    .executeScalar(Double.class);
+        }
     }
 
     @Override
@@ -50,10 +54,12 @@ public class SQLiteProvider extends SQLiteDatabase implements Provider {
         if (has(playerName)) {
             String sql = "UPDATE players SET balance=:balance WHERE UPPER(playerName)=UPPER(:playerName);";
 
-            getConnection().createQuery(sql)
-                    .addParameter("balance", amount)
-                    .addParameter("playerName", playerName)
-                    .executeUpdate();
+            try (Connection connection = getConnection()) {
+                connection.createQuery(sql)
+                        .addParameter("balance", amount)
+                        .addParameter("playerName", playerName)
+                        .executeUpdate();
+            }
         }
     }
 
