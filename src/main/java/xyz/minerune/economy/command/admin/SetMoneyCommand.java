@@ -51,7 +51,7 @@ public class SetMoneyCommand extends Command {
 
             commandSender.sendMessage(Message.green("Баланс игрока %0 установлен на %1$", player, Double.toString(amount)));
             if (p != null) {
-                p.sendMessage(Message.gold("Игрок %0 установил Ваш баланс на %1$", commandSender.getName(), Double.toString(amount)));
+                p.sendMessage(Message.yellow("Игрок %0 установил Ваш баланс на %1$", commandSender.getName(), Double.toString(amount)));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Message.red("Сумма должна быть числом."));

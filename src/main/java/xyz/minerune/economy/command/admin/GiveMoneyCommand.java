@@ -51,7 +51,7 @@ public class GiveMoneyCommand extends Command {
 
             commandSender.sendMessage(Message.green("Вы выдали %0$ игроку %1.", Double.toString(amount), player));
             if (p != null) {
-                p.sendMessage(Message.gold("Игрок %0 выдал Вам %1$", commandSender.getName(), Double.toString(amount)));
+                p.sendMessage(Message.yellow("Игрок %0 выдал Вам %1$", commandSender.getName(), Double.toString(amount)));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Message.red("Сумма должна быть числом."));

@@ -62,7 +62,7 @@ public class PayCommand extends Command {
 
             commandSender.sendMessage(Message.green("Вы перевели %0$ игроку %1.", amount.toString(), player));
             if (p != null) {
-                p.sendMessage(Message.gold("Игрок %0 перевел Вам %1$.", commandSender.getName(), amount.toString()));
+                p.sendMessage(Message.yellow("Игрок %0 перевел Вам %1$.", commandSender.getName(), amount.toString()));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Message.red("Сумма должна быть числом."));
