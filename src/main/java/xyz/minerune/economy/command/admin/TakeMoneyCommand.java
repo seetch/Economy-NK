@@ -39,26 +39,31 @@ public class TakeMoneyCommand extends Command {
             player = p.getName();
         }
 
+        if (!api.hasAccount(player)) {
+            commandSender.sendMessage(Message.red("Игрок никогда не играл на сервере."));
+            return true;
+        }
+
         try {
-            double amount = Double.parseDouble(strings[1]);
+            int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
                 commandSender.sendMessage(Message.red("Некорректное число."));
                 return true;
             }
 
-            Double balance = api.get(player);
+            int balance = api.get(player);
 
             if (amount > balance) {
-                commandSender.sendMessage(Message.red("У игрока %0 недостаточно денег. Баланс игрока %0: %1$", player, balance.toString()));
+                commandSender.sendMessage(Message.red("У игрока %0 недостаточно денег. Баланс игрока %0: %1$", player, api.formatBalance(player)));
                 return true;
             }
 
             api.deduct(player, amount);
 
-            commandSender.sendMessage(Message.green("Вы забрали %0$ игроку %1.", Double.toString(amount), player));
+            commandSender.sendMessage(Message.green("Вы забрали %0$ игроку %1.", api.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Message.yellow("Игрок %0 забрал у Вас %1$", commandSender.getName(), Double.toString(amount)));
+                p.sendMessage(Message.yellow("Игрок %0 забрал у Вас %1$", commandSender.getName(), api.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Message.red("Сумма должна быть числом."));

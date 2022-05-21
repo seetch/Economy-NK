@@ -40,7 +40,7 @@ public class PayCommand extends Command {
         }
 
         try {
-            Double amount = Double.parseDouble(strings[1]);
+            int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
                 commandSender.sendMessage(Message.red("Некорректное число."));
@@ -48,7 +48,7 @@ public class PayCommand extends Command {
             }
 
             if (api.get(commandSender.getName()) < amount) {
-                commandSender.sendMessage(Message.red("Недостаточно денег, чтобы передать %0$ игроку %1.", amount.toString(), player));
+                commandSender.sendMessage(Message.red("Недостаточно денег, чтобы передать %0$ игроку %1.", api.formatMoney(amount), player));
                 return true;
             }
 
@@ -60,9 +60,9 @@ public class PayCommand extends Command {
             api.add(player, amount);
             api.deduct((Player) commandSender, amount);
 
-            commandSender.sendMessage(Message.green("Вы перевели %0$ игроку %1.", amount.toString(), player));
+            commandSender.sendMessage(Message.green("Вы перевели %0$ игроку %1.", api.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Message.yellow("Игрок %0 перевел Вам %1$.", commandSender.getName(), amount.toString()));
+                p.sendMessage(Message.yellow("Игрок %0 перевел Вам %1$.", commandSender.getName(), api.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Message.red("Сумма должна быть числом."));

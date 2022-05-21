@@ -14,6 +14,6 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Economy.getInstance().create(event.getPlayer(), 1.0);
+        Economy.getInstance().create(event.getPlayer());
     }
 }

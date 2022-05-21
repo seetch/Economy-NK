@@ -14,7 +14,7 @@ public class SQLiteProvider extends SQLiteDatabase implements Provider {
     }
 
     @Override
-    public void create(String playerName, Double defaultMoney) {
+    public void create(String playerName, int defaultMoney) {
         if (!has(playerName)) {
             String sql = "INSERT INTO players (playerName, balance) VALUES (:playerName, :balance);";
 
@@ -39,18 +39,18 @@ public class SQLiteProvider extends SQLiteDatabase implements Provider {
     }
 
     @Override
-    public Double get(String playerName) {
+    public int get(String playerName) {
         String sql = "SELECT balance FROM players WHERE UPPER(playerName)=UPPER(:playerName);";
 
         try (Connection connection = getConnection()) {
             return connection.createQuery(sql)
                     .addParameter("playerName", playerName)
-                    .executeScalar(Double.class);
+                    .executeScalar(Integer.class);
         }
     }
 
     @Override
-    public void set(String playerName, Double amount) {
+    public void set(String playerName, int amount) {
         if (has(playerName)) {
             String sql = "UPDATE players SET balance=:balance WHERE UPPER(playerName)=UPPER(:playerName);";
 
@@ -64,7 +64,7 @@ public class SQLiteProvider extends SQLiteDatabase implements Provider {
     }
 
     @Override
-    public LinkedHashMap<String, Double> getAll() {
+    public LinkedHashMap<String, Integer> getAll() {
         return null;
     }
 

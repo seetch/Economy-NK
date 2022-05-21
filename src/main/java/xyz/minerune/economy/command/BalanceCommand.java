@@ -29,20 +29,25 @@ public class BalanceCommand extends Command {
         Economy api = Economy.getInstance();
 
         if (strings.length == 1) {
-            Player player = Server.getInstance().getPlayerExact(strings[0]);
-
-            if (player != null) {
-                Double balance = api.get(strings[0]);
-
-                commandSender.sendMessage(Message.green("У игрока %0 на балансе %1$", strings[0], balance.toString()));
-            } else {
-                commandSender.sendMessage(Message.red("Указанный игрок не найден."));
+            String player = strings[0];
+            Player p = Server.getInstance().getPlayerExact(player);
+            if (p != null) {
+                player = p.getName();
             }
+
+            if (!api.hasAccount(player)) {
+                commandSender.sendMessage(Message.red("Игрок никогда не играл на сервере."));
+                return true;
+            }
+
+            int balance = api.get(strings[0]);
+
+            commandSender.sendMessage(Message.green("У игрока %0 на балансе %1$", strings[0], api.formatMoney(balance)));
             return true;
         }
 
         if (commandSender instanceof Player) {
-            commandSender.sendMessage(Message.green("Ваш баланс: %0$", api.get((Player) commandSender).toString()));
+            commandSender.sendMessage(Message.green("Ваш баланс: %0$", api.formatBalance((Player) commandSender)));
         } else {
             commandSender.sendMessage(Message.usage("/balance [игрок]"));
         }

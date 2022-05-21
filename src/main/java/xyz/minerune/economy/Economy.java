@@ -12,7 +12,10 @@ import xyz.minerune.economy.command.admin.TakeMoneyCommand;
 import xyz.minerune.economy.provider.Provider;
 import xyz.minerune.economy.provider.sqlite.SQLiteProvider;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Economy extends PluginBase {
 
@@ -55,53 +58,67 @@ public class Economy extends PluginBase {
         return provider;
     }
 
-    public void create(Player player, Double amount) {
-        getProvider().create(player.getName(), amount);
+    public void create(Player player) {
+        getProvider().create(player.getName(), 0);
     }
 
     public boolean hasAccount(String playerName) {
         return getProvider().has(playerName);
     }
 
-    public boolean has(Player player, Double amount) {
+    public boolean has(Player player, int amount) {
         return get(player) >= amount;
     }
 
-    public boolean has(String playerName, Double amount) {
+    public boolean has(String playerName, int amount) {
         return get(playerName) >= amount;
     }
 
-    public Double get(Player player) {
+    public int get(Player player) {
         return getProvider().get(player.getName());
     }
 
-    public Double get(String playerName) {
+    public int get(String playerName) {
         return getProvider().get(playerName);
     }
 
-    public void set(Player player, Double amount) {
+    public void set(Player player, int amount) {
         getProvider().set(player.getName(), amount);
     }
 
-    public void set(String playerName, Double amount) {
+    public void set(String playerName, int amount) {
         getProvider().set(playerName, amount);
     }
 
-    public void deduct(Player player, Double amount) {
+    public void deduct(Player player, int amount) {
         set(player, get(player) - amount);
     }
 
-    public void deduct(String playerName, Double amount) {
+    public void deduct(String playerName, int amount) {
         set(playerName, get(playerName) - amount);
     }
 
-    public void add(Player player, Double amount) {
+    public void add(Player player, int amount) {
         set(player, get(player) + amount);
     }
 
-    public void add(String playerName, Double amount) {
+    public void add(String playerName, int amount) {
         set(playerName, get(playerName) + amount);
     }
 
-    // TODO: Add format money func (1,000.52)
+    public String formatBalance(Player player) {
+        return format(get(player));
+    }
+
+    public String formatBalance(String playerName) {
+        return format(get(playerName));
+    }
+
+    public String formatMoney(int amount) {
+        return format(amount);
+    }
+
+    private String format(int number) {
+        return new DecimalFormat(",###", new DecimalFormatSymbols(Locale.US)).format(number);
+    }
 }
