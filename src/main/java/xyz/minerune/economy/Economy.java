@@ -36,7 +36,7 @@ public class Economy extends PluginBase {
     public void onEnable() {
         this.provider = new SQLiteProvider();
         registerCommands();
-        this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 
         this.getLogger().debug("Database provider set to " + provider.getName());
     }
