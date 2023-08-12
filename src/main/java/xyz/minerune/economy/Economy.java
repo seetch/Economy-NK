@@ -1,124 +1,66 @@
 package xyz.minerune.economy;
 
 import cn.nukkit.Player;
-import cn.nukkit.Server;
-import cn.nukkit.command.Command;
-import cn.nukkit.plugin.PluginBase;
-import xyz.minerune.economy.command.BalanceCommand;
-import xyz.minerune.economy.command.PayCommand;
-import xyz.minerune.economy.command.admin.GiveMoneyCommand;
-import xyz.minerune.economy.command.admin.SetMoneyCommand;
-import xyz.minerune.economy.command.admin.TakeMoneyCommand;
-import xyz.minerune.economy.provider.Provider;
-import xyz.minerune.economy.provider.sqlite.SQLiteProvider;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Arrays;
 import java.util.Locale;
 
-public class Economy extends PluginBase {
+public class Economy {
 
-    private static Economy instance;
-
-    private Provider provider;
-
-    @Override
-    public void onLoad() {
-        instance = this;
+    public static boolean hasAccount(String playerName) {
+        return EconomyPlugin.provider.hasAccount(playerName);
     }
 
-    public static Economy getInstance() {
-        return instance;
+    public static boolean hasMoney(Player player, int amount) {
+        return getMoney(player) >= amount;
     }
 
-    @Override
-    public void onEnable() {
-        this.provider = new SQLiteProvider();
-        registerCommands();
-        this.getServer().getPluginManager().registerEvents(new EventListener(), this);
-
-        this.getLogger().debug("Database provider set to " + provider.getName());
+    public static boolean hasMoney(String playerName, int amount) {
+        return getMoney(playerName) >= amount;
     }
 
-    private void registerCommands() {
-        Command[] commands = new Command[]{
-                new GiveMoneyCommand(),
-                new SetMoneyCommand(),
-                new TakeMoneyCommand(),
-
-                new BalanceCommand(),
-                new PayCommand(),
-        };
-
-        Server.getInstance().getCommandMap().registerAll("economy", Arrays.asList(commands));
+    public static int getMoney(Player player) {
+        return EconomyPlugin.provider.getMoney(player.getName());
     }
 
-    public Provider getProvider() {
-        return provider;
+    public static int getMoney(String playerName) {
+        return EconomyPlugin.provider.getMoney(playerName);
     }
 
-    public void create(Player player) {
-        getProvider().create(player.getName(), 0);
+    public static void setMoney(Player player, int amount) {
+        EconomyPlugin.provider.setMoney(player.getName(), amount);
     }
 
-    public boolean hasAccount(String playerName) {
-        return getProvider().has(playerName);
+    public static void setMoney(String playerName, int amount) {
+        EconomyPlugin.provider.setMoney(playerName, amount);
     }
 
-    public boolean has(Player player, int amount) {
-        return get(player) >= amount;
+    public static void deductMoney(Player player, int amount) {
+        setMoney(player, getMoney(player) - amount);
     }
 
-    public boolean has(String playerName, int amount) {
-        return get(playerName) >= amount;
+    public static void deductMoney(String playerName, int amount) {
+        setMoney(playerName, getMoney(playerName) - amount);
     }
 
-    public int get(Player player) {
-        return getProvider().get(player.getName());
+    public static void addMoney(Player player, int amount) {
+        setMoney(player, getMoney(player) + amount);
     }
 
-    public int get(String playerName) {
-        return getProvider().get(playerName);
+    public static void addMoney(String playerName, int amount) {
+        setMoney(playerName, getMoney(playerName) + amount);
     }
 
-    public void set(Player player, int amount) {
-        getProvider().set(player.getName(), amount);
+    public static String formatBalance(Player player) {
+        return formatMoney(getMoney(player));
     }
 
-    public void set(String playerName, int amount) {
-        getProvider().set(playerName, amount);
+    public static String formatBalance(String playerName) {
+        return formatMoney(getMoney(playerName));
     }
 
-    public void deduct(Player player, int amount) {
-        set(player, get(player) - amount);
-    }
-
-    public void deduct(String playerName, int amount) {
-        set(playerName, get(playerName) - amount);
-    }
-
-    public void add(Player player, int amount) {
-        set(player, get(player) + amount);
-    }
-
-    public void add(String playerName, int amount) {
-        set(playerName, get(playerName) + amount);
-    }
-
-    public String formatBalance(Player player) {
-        return format(get(player));
-    }
-
-    public String formatBalance(String playerName) {
-        return format(get(playerName));
-    }
-
-    public String formatMoney(int amount) {
-        return format(amount);
-    }
-
-    private String format(int number) {
+    public static String formatMoney(int number) {
         return new DecimalFormat(",###", new DecimalFormatSymbols(Locale.US)).format(number);
     }
 }

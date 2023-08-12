@@ -6,8 +6,8 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
-import me.hteppl.tools.format.Message;
 import xyz.minerune.economy.Economy;
+import me.seetch.format.Format;
 
 public class SetMoneyCommand extends Command {
 
@@ -16,20 +16,18 @@ public class SetMoneyCommand extends Command {
         setPermission("economy.command.setmoney");
 
         this.commandParameters.clear();
-        this.commandParameters.put("default", new CommandParameter[]{CommandParameter.newType("player", false, CommandParamType.TARGET), CommandParameter.newType("amount", false, CommandParamType.FLOAT)});
+        this.commandParameters.put("default", new CommandParameter[]{CommandParameter.newType("player", false, CommandParamType.TARGET), CommandParameter.newType("amount", false, CommandParamType.INT)});
     }
 
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
-        Economy api = Economy.getInstance();
-
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Message.permission);
+            commandSender.sendMessage(Format.permission());
             return true;
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Message.usage("/setmoney <игрок> <сумма>"));
+            commandSender.sendMessage(Format.usage("/setmoney <игрок> <сумма>"));
             return true;
         }
 
@@ -39,8 +37,8 @@ public class SetMoneyCommand extends Command {
             player = p.getName();
         }
 
-        if (!api.hasAccount(player)) {
-            commandSender.sendMessage(Message.red("Игрок никогда не играл на сервере."));
+        if (!Economy.hasAccount(player)) {
+            commandSender.sendMessage(Format.RED.message("Игрок никогда не играл на сервере."));
             return true;
         }
 
@@ -48,18 +46,18 @@ public class SetMoneyCommand extends Command {
             int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
-                commandSender.sendMessage(Message.red("Некорректное число."));
+                commandSender.sendMessage(Format.RED.message("Некорректное число."));
                 return true;
             }
 
-            api.set(player, amount);
+            Economy.setMoney(player, amount);
 
-            commandSender.sendMessage(Message.green("Баланс игрока %0 установлен на %1$", player, api.formatMoney(amount)));
+            commandSender.sendMessage(Format.GREEN.message("Баланс игрока %0 установлен на %1$", player, Economy.formatMoney(amount)));
             if (p != null) {
-                p.sendMessage(Message.yellow("Игрок %0 установил Ваш баланс на %1$", commandSender.getName(), api.formatMoney(amount)));
+                p.sendMessage(Format.GOLD.message("Игрок %0 установил Ваш баланс на %1$", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
-            commandSender.sendMessage(Message.red("Сумма должна быть числом."));
+            commandSender.sendMessage(Format.RED.message("Сумма должна быть числом."));
         }
         return true;
     }

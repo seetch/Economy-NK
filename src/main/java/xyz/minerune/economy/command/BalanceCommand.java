@@ -6,9 +6,8 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
-import me.hteppl.tools.format.Message;
 import xyz.minerune.economy.Economy;
-
+import me.seetch.format.Format;
 public class BalanceCommand extends Command {
 
     public BalanceCommand() {
@@ -22,11 +21,9 @@ public class BalanceCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (strings.length >= 2) {
-            commandSender.sendMessage(Message.usage("/balance [игрок]"));
+            commandSender.sendMessage(Format.usage("/balance [игрок]"));
             return true;
         }
-
-        Economy api = Economy.getInstance();
 
         if (strings.length == 1) {
             String player = strings[0];
@@ -35,21 +32,21 @@ public class BalanceCommand extends Command {
                 player = p.getName();
             }
 
-            if (!api.hasAccount(player)) {
-                commandSender.sendMessage(Message.red("Игрок никогда не играл на сервере."));
+            if (!Economy.hasAccount(player)) {
+                commandSender.sendMessage(Format.RED.message("Игрок никогда не играл на сервере."));
                 return true;
             }
 
-            int balance = api.get(strings[0]);
+            int balance = Economy.getMoney(strings[0]);
 
-            commandSender.sendMessage(Message.green("У игрока %0 на балансе %1$", strings[0], api.formatMoney(balance)));
+            commandSender.sendMessage(Format.GREEN.message("У игрока %0 на балансе %1$", strings[0], Economy.formatMoney(balance)));
             return true;
         }
 
         if (commandSender instanceof Player) {
-            commandSender.sendMessage(Message.green("Ваш баланс: %0$", api.formatBalance((Player) commandSender)));
+            commandSender.sendMessage(Format.YELLOW.message("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
         } else {
-            commandSender.sendMessage(Message.usage("/balance [игрок]"));
+            commandSender.sendMessage(Format.usage("/balance [игрок]"));
         }
 
         return true;

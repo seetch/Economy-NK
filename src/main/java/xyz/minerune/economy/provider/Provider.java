@@ -4,13 +4,13 @@ import java.util.LinkedHashMap;
 
 public interface Provider {
 
-    void create(String playerName, int defaultMoney);
+    void createAccount(String playerName, int defaultMoney);
 
-    boolean has(String playerName);
+    boolean hasAccount(String playerName);
 
-    int get(String playerName);
+    int getMoney(String playerName);
 
-    void set(String playerName, int amount);
+    void setMoney(String playerName, int amount);
 
     LinkedHashMap<String, Integer> getAll();
 

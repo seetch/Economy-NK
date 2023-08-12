@@ -1,11 +1,10 @@
 name: Economy
+main: xyz.minerune.economy.EconomyPlugin
 version: "${pom.version}"
-main: xyz.minerune.economy.Economy
 api: 1.0.13
-author: seetch
-softdepend:
-  - API
-  - DataManager
+authors:
+  - "https://github.com/seetch"
+website: "https://github.com/minerune/Economy"
 
 permissions:
   economy.command.balance:
