@@ -16,7 +16,7 @@ Usage
 </repositories>
 
 <dependency>
-    <groupId>com.github.seetch</groupId>
+    <groupId>com.github.minerune</groupId>
     <artifactId>Economy</artifactId>
     <version>1.2.0-SNAPSHOT</version>
 </dependency>
@@ -30,6 +30,6 @@ allprojects {
 }
 
 dependencies {
-	implementation 'com.github.seetch:Economy:1.2.0-SNAPSHOT'
+	implementation 'com.github.minerune:Economy:1.2.0-SNAPSHOT'
 }
 ```
