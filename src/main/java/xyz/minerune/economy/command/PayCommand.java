@@ -12,7 +12,7 @@ import me.seetch.format.Format;
 public class PayCommand extends Command {
 
     public PayCommand() {
-        super("pay", "Перевести указанную сумму денег игроку.");
+        super("pay", "Переводит указанную сумму денег игроку.");
         setPermission("economy.command.pay");
 
         this.commandParameters.clear();
@@ -22,12 +22,12 @@ public class PayCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(Format.ingame());
+            commandSender.sendMessage(Format.RED.message("Эта команда должна быть выполнена в игре."));
             return true;
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Format.usage("/pay <игрок> <сумма>"));
+            commandSender.sendMessage(Format.YELLOW.message("Используйте: %0","/pay <игрок> <сумма>"));
             return true;
         }
 

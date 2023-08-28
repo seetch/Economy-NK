@@ -46,6 +46,6 @@ public class EconomyPlugin extends PluginBase implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        provider.createAccount(event.getPlayer().getName(), 1000);
+        provider.createAccount(event.getPlayer().getName(), 0);
     }
 }

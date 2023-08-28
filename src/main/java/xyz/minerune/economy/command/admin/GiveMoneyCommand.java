@@ -12,7 +12,7 @@ import me.seetch.format.Format;
 public class GiveMoneyCommand extends Command {
 
     public GiveMoneyCommand() {
-        super("givemoney", "Выдать деньги указанному игроку.");
+        super("givemoney", "Выдает деньги указанному игроку.");
         setPermission("economy.command.givemoney");
 
         this.commandParameters.clear();
@@ -22,12 +22,12 @@ public class GiveMoneyCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Format.permission());
+            commandSender.sendMessage(Format.RED.message("У вас недостаточно прав для выполнения этой команды."));
             return true;
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Format.usage("/givemoney <игрок> <сумма>"));
+            commandSender.sendMessage(Format.YELLOW.message("Используйте: %0","/givemoney <игрок> <сумма>"));
             return true;
         }
 
