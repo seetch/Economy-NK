@@ -6,8 +6,8 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
+import me.seetch.format.Format;
 import xyz.minerune.economy.Economy;
-import xyz.minerune.economy.utils.Format;
 
 public class SetMoneyCommand extends Command {
 

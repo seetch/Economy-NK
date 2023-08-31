@@ -7,7 +7,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
 import xyz.minerune.economy.Economy;
-import xyz.minerune.economy.utils.Format;
+import me.seetch.format.Format;
 
 public class GiveMoneyCommand extends Command {
 
