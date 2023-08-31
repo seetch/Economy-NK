@@ -7,7 +7,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
 import xyz.minerune.economy.Economy;
-import me.seetch.format.Format;
+import xyz.minerune.economy.utils.Format;
 
 public class TakeMoneyCommand extends Command {
 
@@ -22,12 +22,12 @@ public class TakeMoneyCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("У вас недостаточно прав для выполнения этой команды."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("У вас недостаточно прав для выполнения этой команды."));
             return true;
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Format.YELLOW.message("Используйте: %0","/takemoney <игрок> <сумма>"));
+            commandSender.sendMessage(Format.YELLOW.colorize("Используйте: %0","/takemoney <игрок> <сумма>"));
             return true;
         }
 
@@ -38,7 +38,7 @@ public class TakeMoneyCommand extends Command {
         }
 
         if (!Economy.hasAccount(player)) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Игрок никогда не играл на сервере."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Игрок никогда не играл на сервере."));
             return true;
         }
 
@@ -46,25 +46,25 @@ public class TakeMoneyCommand extends Command {
             int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Некорректное число."));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Некорректное число."));
                 return true;
             }
 
             int balance = Economy.getMoney(player);
 
             if (amount > balance) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("У игрока %0 недостаточно денег. Баланс игрока %0: %1$", player, Economy.formatBalance(player)));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("У игрока %0 недостаточно денег. Баланс игрока %0: %1$", player, Economy.formatBalance(player)));
                 return true;
             }
 
             Economy.deductMoney(player, amount);
 
-            commandSender.sendMessage(Format.GREEN.message("Вы забрали %0$ игроку %1.", Economy.formatMoney(amount), player));
+            commandSender.sendMessage(Format.GREEN.colorize("Вы забрали %0$ игроку %1.", Economy.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Format.GOLD.message("Игрок %0 забрал у Вас %1$", commandSender.getName(), Economy.formatMoney(amount)));
+                p.sendMessage(Format.GOLD.colorize("Игрок %0 забрал у Вас %1$", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Сумма должна быть числом."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Сумма должна быть числом."));
         }
         return true;
     }

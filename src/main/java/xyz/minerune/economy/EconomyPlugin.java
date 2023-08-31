@@ -6,8 +6,6 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerJoinEvent;
 import cn.nukkit.plugin.PluginBase;
-import lombok.Getter;
-import me.seetch.format.Format;
 import xyz.minerune.economy.command.BalanceCommand;
 import xyz.minerune.economy.command.PayCommand;
 import xyz.minerune.economy.command.admin.GiveMoneyCommand;
@@ -20,14 +18,7 @@ import java.util.Arrays;
 
 public class EconomyPlugin extends PluginBase implements Listener {
 
-    @Getter
-    private static EconomyPlugin instance;
-    protected static Provider provider;
-
-    @Override
-    public void onLoad() {
-        instance = this;
-    }
+    public static Provider provider;
 
     @Override
     public void onEnable() {
@@ -35,11 +26,17 @@ public class EconomyPlugin extends PluginBase implements Listener {
         registerCommands();
         this.getServer().getPluginManager().registerEvents(this, this);
 
-        this.getLogger().debug(Format.AQUA.message("Database provider set to %0.", provider.getName()));
+        this.getLogger().debug("Database provider set to " + provider.getName());
     }
 
     private void registerCommands() {
-        Command[] commands = new Command[]{new GiveMoneyCommand(), new SetMoneyCommand(), new TakeMoneyCommand(), new BalanceCommand(), new PayCommand()};
+        Command[] commands = new Command[]{
+                new GiveMoneyCommand(),
+                new SetMoneyCommand(),
+                new TakeMoneyCommand(),
+                new BalanceCommand(),
+                new PayCommand()
+        };
 
         Server.getInstance().getCommandMap().registerAll("economy", Arrays.asList(commands));
     }

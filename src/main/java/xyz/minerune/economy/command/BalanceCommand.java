@@ -7,7 +7,8 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
 import xyz.minerune.economy.Economy;
-import me.seetch.format.Format;
+import xyz.minerune.economy.utils.Format;
+
 public class BalanceCommand extends Command {
 
     public BalanceCommand() {
@@ -21,7 +22,7 @@ public class BalanceCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (strings.length >= 2) {
-            commandSender.sendMessage(Format.MATERIAL_GOLD.message("Используйте: %0","/balance [игрок]"));
+            commandSender.sendMessage(Format.MATERIAL_GOLD.colorize("Используйте: %0","/balance [игрок]"));
             return true;
         }
 
@@ -33,20 +34,20 @@ public class BalanceCommand extends Command {
             }
 
             if (!Economy.hasAccount(player)) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Игрок никогда не играл на сервере."));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Игрок никогда не играл на сервере."));
                 return true;
             }
 
             int balance = Economy.getMoney(strings[0]);
 
-            commandSender.sendMessage(Format.MATERIAL_EMERALD.message("У игрока %0 на балансе %1$", strings[0], Economy.formatMoney(balance)));
+            commandSender.sendMessage(Format.MATERIAL_EMERALD.colorize("У игрока %0 на балансе %1$", strings[0], Economy.formatMoney(balance)));
             return true;
         }
 
         if (commandSender instanceof Player) {
-            commandSender.sendMessage(Format.MATERIAL_AMETHYST.message("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
+            commandSender.sendMessage(Format.MATERIAL_AMETHYST.colorize("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
         } else {
-            commandSender.sendMessage(Format.MATERIAL_GOLD.message("Используйте: %0","/balance [игрок]"));
+            commandSender.sendMessage(Format.MATERIAL_GOLD.colorize("Используйте: %0","/balance [игрок]"));
         }
 
         return true;
