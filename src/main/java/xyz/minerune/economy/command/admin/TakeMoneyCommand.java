@@ -12,7 +12,7 @@ import me.seetch.format.Format;
 public class TakeMoneyCommand extends Command {
 
     public TakeMoneyCommand() {
-        super("takemoney", "Забирает деньги у указанного игрока.");
+        super("takemoney", "§r§cЗабирает деньги у указанного игрока.");
         setPermission("economy.command.takemoney");
 
         this.commandParameters.clear();
@@ -22,7 +22,7 @@ public class TakeMoneyCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Format.RED.message("У вас недостаточно прав для выполнения этой команды."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("У вас недостаточно прав для выполнения этой команды."));
             return true;
         }
 
@@ -38,7 +38,7 @@ public class TakeMoneyCommand extends Command {
         }
 
         if (!Economy.hasAccount(player)) {
-            commandSender.sendMessage(Format.RED.message("Игрок никогда не играл на сервере."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Игрок никогда не играл на сервере."));
             return true;
         }
 
@@ -46,14 +46,14 @@ public class TakeMoneyCommand extends Command {
             int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
-                commandSender.sendMessage(Format.RED.message("Некорректное число."));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Некорректное число."));
                 return true;
             }
 
             int balance = Economy.getMoney(player);
 
             if (amount > balance) {
-                commandSender.sendMessage(Format.RED.message("У игрока %0 недостаточно денег. Баланс игрока %0: %1$", player, Economy.formatBalance(player)));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("У игрока %0 недостаточно денег. Баланс игрока %0: %1$", player, Economy.formatBalance(player)));
                 return true;
             }
 
@@ -64,7 +64,7 @@ public class TakeMoneyCommand extends Command {
                 p.sendMessage(Format.GOLD.message("Игрок %0 забрал у Вас %1$", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
-            commandSender.sendMessage(Format.RED.message("Сумма должна быть числом."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Сумма должна быть числом."));
         }
         return true;
     }

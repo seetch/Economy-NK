@@ -11,7 +11,7 @@ import me.seetch.format.Format;
 public class BalanceCommand extends Command {
 
     public BalanceCommand() {
-        super("balance", "Показывает ваш текущий баланс.");
+        super("balance", "§r§uПоказывает ваш текущий баланс.");
         this.setPermission("economy.command.balance");
 
         this.commandParameters.clear();
@@ -21,7 +21,7 @@ public class BalanceCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (strings.length >= 2) {
-            commandSender.sendMessage(Format.YELLOW.message("Используйте: %0","/balance [игрок]"));
+            commandSender.sendMessage(Format.MATERIAL_GOLD.message("Используйте: %0","/balance [игрок]"));
             return true;
         }
 
@@ -33,20 +33,20 @@ public class BalanceCommand extends Command {
             }
 
             if (!Economy.hasAccount(player)) {
-                commandSender.sendMessage(Format.RED.message("Игрок никогда не играл на сервере."));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Игрок никогда не играл на сервере."));
                 return true;
             }
 
             int balance = Economy.getMoney(strings[0]);
 
-            commandSender.sendMessage(Format.GREEN.message("У игрока %0 на балансе %1$", strings[0], Economy.formatMoney(balance)));
+            commandSender.sendMessage(Format.MATERIAL_EMERALD.message("У игрока %0 на балансе %1$", strings[0], Economy.formatMoney(balance)));
             return true;
         }
 
         if (commandSender instanceof Player) {
-            commandSender.sendMessage(Format.YELLOW.message("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
+            commandSender.sendMessage(Format.MATERIAL_AMETHYST.message("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
         } else {
-            commandSender.sendMessage(Format.YELLOW.message("Используйте: %0","/balance [игрок]"));
+            commandSender.sendMessage(Format.MATERIAL_GOLD.message("Используйте: %0","/balance [игрок]"));
         }
 
         return true;

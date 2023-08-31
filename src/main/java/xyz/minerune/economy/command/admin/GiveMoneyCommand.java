@@ -12,7 +12,7 @@ import me.seetch.format.Format;
 public class GiveMoneyCommand extends Command {
 
     public GiveMoneyCommand() {
-        super("givemoney", "Выдает деньги указанному игроку.");
+        super("givemoney", "§r§cВыдает деньги указанному игроку.");
         setPermission("economy.command.givemoney");
 
         this.commandParameters.clear();
@@ -22,7 +22,7 @@ public class GiveMoneyCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Format.RED.message("У вас недостаточно прав для выполнения этой команды."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("У вас недостаточно прав для выполнения этой команды."));
             return true;
         }
 
@@ -38,7 +38,7 @@ public class GiveMoneyCommand extends Command {
         }
 
         if (!Economy.hasAccount(player)) {
-            commandSender.sendMessage(Format.RED.message("Игрок никогда не играл на сервере."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Игрок никогда не играл на сервере."));
             return true;
         }
 
@@ -46,7 +46,7 @@ public class GiveMoneyCommand extends Command {
             int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
-                commandSender.sendMessage(Format.RED.message("Некорректное число."));
+                commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Некорректное число."));
                 return true;
             }
 
@@ -57,7 +57,7 @@ public class GiveMoneyCommand extends Command {
                 p.sendMessage(Format.GOLD.message("Игрок %0 выдал Вам %1$", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
-            commandSender.sendMessage(Format.RED.message("Сумма должна быть числом."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.message("Сумма должна быть числом."));
         }
         return true;
     }
