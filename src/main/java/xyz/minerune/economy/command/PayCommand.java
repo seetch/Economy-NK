@@ -12,7 +12,7 @@ import me.seetch.format.Format;
 public class PayCommand extends Command {
 
     public PayCommand() {
-        super("pay", "§r§uПереводит указанную сумму денег игроку.");
+        super("pay", "§r§qПереводит указанную сумму денег игроку.");
         setPermission("economy.command.pay");
 
         this.commandParameters.clear();
@@ -27,7 +27,7 @@ public class PayCommand extends Command {
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Format.MATERIAL_GOLD.colorize("Используйте: %0","/pay <игрок> <сумма>"));
+            commandSender.sendMessage(Format.YELLOW.colorize("Используйте: %0","/pay <игрок> <сумма>"));
             return true;
         }
 
@@ -60,7 +60,7 @@ public class PayCommand extends Command {
 
             commandSender.sendMessage(Format.MATERIAL_EMERALD.colorize("Вы перевели %0$ игроку %1.", Economy.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Format.MATERIAL_AMETHYST.colorize("Игрок %0 перевел Вам %1$.", commandSender.getName(), Economy.formatMoney(amount)));
+                p.sendMessage(Format.YELLOW.colorize("Игрок %0 перевел Вам %1$.", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Сумма должна быть числом."));

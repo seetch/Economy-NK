@@ -12,7 +12,7 @@ import me.seetch.format.Format;
 public class BalanceCommand extends Command {
 
     public BalanceCommand() {
-        super("balance", "§r§uПоказывает ваш текущий баланс.");
+        super("balance", "§r§qПоказывает ваш текущий баланс.");
         this.setPermission("economy.command.balance");
 
         this.commandParameters.clear();
@@ -22,7 +22,7 @@ public class BalanceCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (strings.length >= 2) {
-            commandSender.sendMessage(Format.MATERIAL_GOLD.colorize("Используйте: %0","/balance [игрок]"));
+            commandSender.sendMessage(Format.YELLOW.colorize("Используйте: %0","/balance [игрок]"));
             return true;
         }
 
@@ -45,9 +45,9 @@ public class BalanceCommand extends Command {
         }
 
         if (commandSender instanceof Player) {
-            commandSender.sendMessage(Format.MATERIAL_AMETHYST.colorize("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
+            commandSender.sendMessage(Format.MATERIAL_EMERALD.colorize("Ваш баланс: %0$", Economy.formatBalance((Player) commandSender)));
         } else {
-            commandSender.sendMessage(Format.MATERIAL_GOLD.colorize("Используйте: %0","/balance [игрок]"));
+            commandSender.sendMessage(Format.YELLOW.colorize("Используйте: %0","/balance [игрок]"));
         }
 
         return true;

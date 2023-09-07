@@ -22,7 +22,7 @@ public class GiveMoneyCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("У вас недостаточно прав для выполнения этой команды."));
+            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("У Вас недостаточно прав для выполнения этой команды."));
             return true;
         }
 
@@ -54,7 +54,7 @@ public class GiveMoneyCommand extends Command {
 
             commandSender.sendMessage(Format.GREEN.colorize("Вы выдали %0$ игроку %1.", Economy.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Format.GOLD.colorize("Игрок %0 выдал Вам %1$", commandSender.getName(), Economy.formatMoney(amount)));
+                p.sendMessage(Format.YELLOW.colorize("Игрок %0 выдал Вам %1$", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
             commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Сумма должна быть числом."));
