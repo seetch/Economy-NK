@@ -6,13 +6,13 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.command.data.CommandParamType;
 import cn.nukkit.command.data.CommandParameter;
-import xyz.minerune.economy.Economy;
 import me.seetch.format.Format;
+import xyz.minerune.economy.Economy;
 
 public class PayCommand extends Command {
 
     public PayCommand() {
-        super("pay", "§r§qПереводит указанную сумму денег игроку.");
+        super("pay", "§r§dПереводит указанную сумму денег игроку.");
         setPermission("economy.command.pay");
 
         this.commandParameters.clear();
@@ -22,12 +22,12 @@ public class PayCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Эта команда должна быть выполнена в игре."));
+            commandSender.sendMessage(Format.RED.colorize("►", "Эта команда должна быть выполнена в игре."));
             return true;
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Format.YELLOW.colorize("Используйте: %0","/pay <игрок> <сумма>"));
+            commandSender.sendMessage(Format.YELLOW.colorize("\uE113", "Используйте: %0", "/pay <игрок> <сумма>"));
             return true;
         }
 
@@ -41,29 +41,29 @@ public class PayCommand extends Command {
             int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Некорректное число."));
+                commandSender.sendMessage(Format.RED.colorize("\uE112", "Некорректное число."));
                 return true;
             }
 
             if (Economy.getMoney(commandSender.getName()) < amount) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Недостаточно денег, чтобы перевести %0$ игроку %1.", Economy.formatMoney(amount), player));
+                commandSender.sendMessage(Format.RED.colorize("\uE112", "Недостаточно денег, чтобы перевести %0 игроку %1.", Economy.formatMoney(amount), player));
                 return true;
             }
 
             if (commandSender.getName().equals(player)) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Вы не можете перевести деньги самому себе."));
+                commandSender.sendMessage(Format.RED.colorize("\uE112", "Вы не можете перевести деньги самому себе."));
                 return true;
             }
 
             Economy.addMoney(player, amount);
             Economy.deductMoney((Player) commandSender, amount);
 
-            commandSender.sendMessage(Format.MATERIAL_EMERALD.colorize("Вы перевели %0$ игроку %1.", Economy.formatMoney(amount), player));
+            commandSender.sendMessage(Format.GREEN.colorize("\uE111", "Вы перевели %0 игроку %1.", Economy.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Format.YELLOW.colorize("Игрок %0 перевел Вам %1$.", commandSender.getName(), Economy.formatMoney(amount)));
+                p.sendMessage(Format.YELLOW.colorize("\uE113", "Игрок %0 перевел Вам %1.", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Сумма должна быть числом."));
+            commandSender.sendMessage(Format.RED.colorize("\uE112", "Сумма должна быть числом."));
         }
         return true;
     }

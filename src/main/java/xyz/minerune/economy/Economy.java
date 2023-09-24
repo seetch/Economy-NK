@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Economy {
@@ -60,7 +61,11 @@ public class Economy {
         return formatMoney(getMoney(playerName));
     }
 
+    public static String legacyFormatMoney(int number) {
+        return "$" + new DecimalFormat(",###", new DecimalFormatSymbols(Locale.US)).format(number);
+    }
+
     public static String formatMoney(int number) {
-        return new DecimalFormat(",###", new DecimalFormatSymbols(Locale.US)).format(number);
+        return "$" + NumberFormat.getCompactNumberInstance(Locale.US, NumberFormat.Style.SHORT).format(number);
     }
 }

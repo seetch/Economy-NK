@@ -22,12 +22,12 @@ public class GiveMoneyCommand extends Command {
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("У Вас недостаточно прав для выполнения этой команды."));
+            commandSender.sendMessage(Format.RED.colorize("\uE112", "У Вас недостаточно прав для выполнения этой команды."));
             return true;
         }
 
         if (strings.length > 3 || strings.length < 2) {
-            commandSender.sendMessage(Format.YELLOW.colorize("Используйте: %0","/givemoney <игрок> <сумма>"));
+            commandSender.sendMessage(Format.YELLOW.colorize("\uE113", "Используйте: %0","/givemoney <игрок> <сумма>"));
             return true;
         }
 
@@ -38,7 +38,7 @@ public class GiveMoneyCommand extends Command {
         }
 
         if (!Economy.hasAccount(player)) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Игрок никогда не играл на сервере."));
+            commandSender.sendMessage(Format.RED.colorize("\uE112", "Игрок никогда не играл на сервере."));
             return true;
         }
 
@@ -46,18 +46,18 @@ public class GiveMoneyCommand extends Command {
             int amount = Integer.parseInt(strings[1]);
 
             if (amount < 0) {
-                commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Некорректное число."));
+                commandSender.sendMessage(Format.RED.colorize("\uE112", "Некорректное число."));
                 return true;
             }
 
             Economy.addMoney(player, amount);
 
-            commandSender.sendMessage(Format.GREEN.colorize("Вы выдали %0$ игроку %1.", Economy.formatMoney(amount), player));
+            commandSender.sendMessage(Format.GREEN.colorize("\uE111", "Вы выдали %0 игроку %1.", Economy.formatMoney(amount), player));
             if (p != null) {
-                p.sendMessage(Format.YELLOW.colorize("Игрок %0 выдал Вам %1$", commandSender.getName(), Economy.formatMoney(amount)));
+                p.sendMessage(Format.YELLOW.colorize("\uE113", "Игрок %0 выдал Вам %1", commandSender.getName(), Economy.formatMoney(amount)));
             }
         } catch (NumberFormatException e) {
-            commandSender.sendMessage(Format.MATERIAL_REDSTONE.colorize("Сумма должна быть числом."));
+            commandSender.sendMessage(Format.RED.colorize("\uE112", "Сумма должна быть числом."));
         }
         return true;
     }
